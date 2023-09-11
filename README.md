@@ -1,11 +1,13 @@
 # CS3219 SE Toolbox - CD with GitHub Actions and AWS
+The CS3219 SE Toolbox is a collection of guides and resources to help you get started with the various tools and technologies used CS3219 - Software Engineering Principles and Patterns.
 
+This guide provides a step-by-step walkthrough on how to set up Continuous Deployment (CD) with GitHub Actions and Amazon Web Services (AWS).
 ## Learning Objectives
 
 Welcome to this guide on Continuous Deployment (CD) with GitHub Actions and Amazon Web Services (AWS). In this guide, you will learn:
 
-- how to manually deploy the backend of the address book app you created previously to AWS environment
-- how to set up a GitHub Actions workflow that automates the deployment process
+- How to manually deploy the backend of the address book app you created previously to AWS environment.
+- How to set up a GitHub Actions workflow that automates the deployment process.
 
 ## Prerequisites
 
@@ -18,9 +20,11 @@ Before starting, ensure that you have the following:
 5. An AWS account (if you don't have one, sign up at https://aws.amazon.com/)
 6. A MongoDB Atlas account (visit [this guide](https://www.mongodb.com/docs/atlas/getting-started/) to get started with MongoDB Atlas)
 
-## Lab Setup
+## Setup
 
-1. Fork/Clone the repository [here](https://github.com/nus-CS3219/CS3219-CD-GH-AWS-Code.git), which contains a complete backend for the address book app.
+1. Fork and then clone the repository https://github.com/CS3219-AY2324S1/SE-Toolbox-AddressBook-Backend to your device. 
+
+   > ℹ️ About the project: The repository contains the backend code of an address book application, one that is similar to what you have seen in CS2103/T or CS2113/T but developed in JavaScript. The backend is equipped with basic functionalities, including the ability to add, retrieve, edit, and delete information, by connecting to MongoDB Atlas – a cloud database. Furthermore, the `test` directory includes a set of integration tests. 
 
 2. Install all dependencies by running `npm install` in the project directory.
 
@@ -32,7 +36,7 @@ Before starting, ensure that you have the following:
 
 ## Part I: Deploying to AWS Elastic Beanstalk
 
-Now, let’s deploy our backend to AWS Elastic Beanstalk.
+We will first manually deploy the backend of the address book app to AWS Elastic Beanstalk. This will help you understand the deployment process and the different components involved. Then, we will set up GitHub Actions to automate the deployment process.
 
 Amazon Web Services (AWS) is a cloud computing platform that allows developers to run their applications and services in the cloud without managing the underlying infrastructure, making it easier for developers to deploy and manage their applications.
 
@@ -214,15 +218,16 @@ The **`with`** section provides input parameters for the `beanstalk-deploy` acti
 
 - The "Get Node.js version" step fetches the application version from `package.json` and saves it as the GitHub environment variable `VERSION`. The **`version_label`** is then set to the value of `VERSION`, eliminating the need for manual version updates in the workflow file.
 
-### :book: **Exercise: Observe CD with GitHub Actions**
+### 📖 **Observe CD with GitHub Actions**
 
 Make some minor changes to your address book app, then commit and push the changes to the `master` branch. Check whether your changes have been automatically deployed to AWS Elastic Beanstalk. Don’t forget to update the version number in `package.json` (e.g., `1.0.1`).
 
 <br>
 
-:tada:Congratulations on successfully following this CD with GitHub Actions and AWS guide! **Don’t forget to terminate the AWS Elastic Beanstalk environment to avoid unnecessary charges.**:blush:
+🎉Congratulations on successfully following this CD with GitHub Actions and AWS guide! **Don’t forget to terminate the AWS Elastic Beanstalk environment to avoid unnecessary charges.**😊
 
 ## References
+The following resources were used in the creation of this guide:
 
 GitHub Docs - Building and testing Node.js: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
@@ -234,7 +239,7 @@ MongoDB in GitHub Actions: https://github.com/marketplace/actions/mongodb-in-git
 
 Beanstalk Deploy: https://github.com/marketplace/actions/beanstalk-deploy
 
-Lab outline generated with [ChatGPT](https://openai.com/blog/chatgpt)
+Outline generated with [ChatGPT](https://openai.com/blog/chatgpt)
 
 ## Other Resources
 
