@@ -28,7 +28,7 @@ Before starting, ensure that you have the following:
 
 2. Install all dependencies by running `npm install` in the project directory.
 
-3. Next, set up a cloud MongoDB database on MongoDB Atlas and obtain the connection URI. Update the `CLOUD_URI` environment variable inside `.env` to point to this cloud database. After this, you can try running the application locally using `npm start`.
+3. Next, set up a cloud MongoDB database on MongoDB Atlas and obtain the connection URI. Create an `.env` file, and then update the `CLOUD_URI` environment variable inside `.env` to point to this cloud database. If the URI contains special characters, please url-encode the URI. You may do so at [here](https://www.urlencoder.org/). After this, you can try running the application locally using `npm start`.
 
    Go to [`localhost:8080`](http://localhost:8080/) and you should be able to see “Welcome to Address Book!”.
 
@@ -70,23 +70,13 @@ If you haven’t already, sign up for an AWS account at https://aws.amazon.com/.
 
 **2.1** In the AWS Management Console, search for and navigate to the **Elastic Beanstalk** service. In the navigation bar, choose `Asia Pacific (Singapore)` `ap-southeast-1` as the region.
 
-**2.2** Choose "Create application".
-
-![](./images/1.png)
+**2.2** Then, choose "Create application".
 
 **2.3** Enter a name for your application (e.g., `AddressBookApp`) and select the platform as "Node.js". Keep the default settings for all other places. (Feel free to explore other settings for your own interest:wink:)
-
-![](./images/2.png)
-
-![](./images/3.png)
 
 Then choose “Next” > “Skip to review” > “Submit”. Elastic Beanstalk is now creating a new *application* along with a new web server *environment* named `AddressBookApp-env` to execute its sample application.
 
 **2.4** Please wait until the health status of the environment changes to "Ok". Once it’s ready, you can access the sample application at the auto-generated domain.
-
-![](./images/4.png)
-
-![](./images/5.png)
 
 #### Step 3. Prepare Application for Deployment
 
@@ -102,11 +92,7 @@ In your local development environment, create a zip file named `address-book-app
 
 **4.4** Choose "Deploy" to start the deployment process.
 
-![](./images/6.png)
-
 **4.5** Elastic Beanstalk takes care of the rest. Once the deployment is complete, you can visit the environment URL to access the deployed application. Our backend API is now running in the cloud!
-
-![](./images/7.png)
 
 ## **Part II: Setting Up GitHub Actions for Automated Deployment**
 
@@ -120,27 +106,13 @@ For GitHub to interact with AWS services securely, we need to provide the necess
 
 **1.2** In the IAM console, select "Users" in the left navigation pane and then select "Create user".
 
-![](./images/8.png)
-
 **1.3** Enter a unique username (e.g., `AddressBookDeployUser`) and select “Next”.
-
-![](./images/9.png)
 
 **1.4** In the "Set permissions" section, select "Attach policies directly", then search for and select "AdministratorAccess-AWSElasticBeanstalk" policy. This policy grants the permissions to access the Elastic Beanstalk service. Then select “Next” > “Create user”.
 
-![](./images/10.png)
-
-**1.5** After the user is created, navigate to the "Security credentials" tab for the user. Under "Access keys", choose "Create access key" to generate a new access key for the user. You can select “Other” in the “Access key best practices & alternatives” section.
-
-![](./images/11.png)
-
-![](./images/12.png)
+**1.5** After the user is created, under "Summary", create a new access key for the user. You can select “Other” in the “Access key best practices & alternatives” section.
 
 **1.6** Go to your GitHub repository, select "Settings" > "Secrets and variables" > “Actions”, and add the *Access Key ID* as `AWS_ACCESS_KEY_ID` and the *Secret Access Key* as `AWS_SECRET_ACCESS_KEY`.
-
-![](./images/13.png)
-
-![](./images/14.png)
 
 #### Step 2: Create an Automated Deployment Workflow
 
