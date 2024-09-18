@@ -110,7 +110,7 @@ For GitHub to interact with AWS services securely, we need to provide the necess
 
 **1.4** In the "Set permissions" section, select "Attach policies directly", then search for and select "AdministratorAccess-AWSElasticBeanstalk" policy. This policy grants the permissions to access the Elastic Beanstalk service. Then select “Next” > “Create user”.
 
-**1.5** After the user is created, under "Summary", create a new access key for the user. You can select “Other” in the “Access key best practices & alternatives” section.
+**1.5** After the user is created, under user page "Summary" section, create a new access key for the user. You can select “Other” in the “Access key best practices & alternatives” section.
 
 **1.6** Go to your GitHub repository, select "Settings" > "Secrets and variables" > “Actions”, and add the *Access Key ID* as `AWS_ACCESS_KEY_ID` and the *Secret Access Key* as `AWS_SECRET_ACCESS_KEY`.
 
