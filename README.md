@@ -28,7 +28,7 @@ Before starting, ensure that you have the following:
 
 2. Install all dependencies by running `npm install` in the project directory.
 
-3. Next, set up a cloud MongoDB database on MongoDB Atlas and obtain the connection URI. Create a `.env` file, and then update the `CLOUD_URI` environment variable inside `.env` to point to this cloud database. If the URI contains special characters, please url-encode the URI. You may do so at [here](https://www.urlencoder.org/). After this, you can try running the application locally using `npm start`.
+3. Next, set up a cloud MongoDB database on MongoDB Atlas and obtain the connection URI. Create a `.env` file, and then update the `CLOUD_URI` environment variable inside `.env` to point to this cloud database. If the URI contains special characters which leads to a parsing error, please url-encode the URI. You may do so at [here](https://www.urlencoder.org/). After this, you can try running the application locally using `npm start`.
 
    Go to [`localhost:8080`](http://localhost:8080/) and you should be able to see “Welcome to Address Book!”.
 
