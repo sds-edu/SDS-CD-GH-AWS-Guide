@@ -22,15 +22,17 @@ Before starting, ensure that you have the following:
 
 ## Setup
 
-1. Fork and then clone the repository https://github.com/CS3219-AY2324S1/SE-Toolbox-CD-GH-Actions-AWS.git to your device. 
+1. Fork and then clone the repository https://github.com/nus-CS3219/CS3219-CD-GH-AWS-Code.git to your device.
 
-   > ℹ️ About the project: The repository contains the backend code of an address book application, one that is similar to what you have seen in CS2103/T or CS2113/T but developed in JavaScript. The backend is equipped with basic functionalities, including the ability to add, retrieve, edit, and delete information, by connecting to MongoDB Atlas – a cloud database. Furthermore, the `test` directory includes a set of integration tests. 
+   > ℹ️ About the project: The repository contains the backend code of an address book application, one that is similar to what you have seen in CS2103/T or CS2113/T but developed in JavaScript. The backend is equipped with basic functionalities, including the ability to add, retrieve, edit, and delete information, by connecting to MongoDB Atlas – a cloud database.
 
 2. Install all dependencies by running `npm install` in the project directory.
 
-3. Next, set up a cloud MongoDB database on MongoDB Atlas and obtain the connection URI. Update the `CLOUD_URI` environment variable inside `.env` to point to this cloud database. After this, you can try running the application locally using `npm start`.
+3. Set up a cloud MongoDB database on MongoDB Atlas and obtain the connection string. Create a copy of the `.env.sample` file and name it `.env`. Update the `CLOUD_URI` environment variable inside `.env` to point to the cloud database.
 
-   Go to [`localhost:8080`](http://localhost:8080/) and you should be able to see “Welcome to Address Book!”.
+4. Start the application locally using `npm start`.
+
+   Go to [`localhost:8080`](http://localhost:8080/) and you should be able to see “Welcome to Address Book with CD!”.
 
    You can also use Postman to test CRUD operations on the API locally. By using the cloud database, you are now testing the application in a local deployment scenario without using a local database.
 
@@ -40,23 +42,19 @@ We will first manually deploy the backend of the address book app to AWS Elastic
 
 Amazon Web Services (AWS) is a cloud computing platform that allows developers to run their applications and services in the cloud without managing the underlying infrastructure, making it easier for developers to deploy and manage their applications.
 
-AWS Elastic Beanstalk is a service within AWS that makes deploying web applications simple. It handles the complexities of infrastructure setup, scaling, and deployment, allowing developers to focus on writing code.
+AWS Elastic Beanstalk is a fully managed orchestration service within AWS that makes deploying web applications simple. It handles the complexities of infrastructure setup, scaling, and deployment, allowing developers to focus on writing code.
 
 When you deploy your web application to AWS Elastic Beanstalk, it involves a few important parts:
 
 - **Application**: This is the web application or API that you want to run in the cloud.
-
 - **Environment**: It’s like a configuration/setup that specifies how your application will run on AWS. You can have different environments for testing, staging, or production.
-
 - **EC2** **Instances (Elastic Compute Cloud)**: These are virtual servers in the cloud that host/run your application.
-
 - **S3 Bucket (Simple Storage Service)**: It might be used to store your application’s versions and files.
-
+- **Application Version**: An application version refers to a specific labeled version of your application’s code that you upload, enabling you to roll back to a previous version if needed. Each version points to an S3 object where the deployable application code is stored.
 - **Load Balancer**: It helps distribute incoming traffic across multiple EC2 instances for better performance and reliability.
-
 - **Security Groups**: These are like virtual firewalls for EC2 instances and other AWS resources. They control the inbound and outbound traffic for these resources, e.g., permit or deny specific types of traffic based on source and destination IP addresses.
-
-- **IAM Roles (Identity and Access Management)**: These provide permissions for resources to access other AWS services securely.
+- **IAM Role (Identity and Access Management)**: An IAM role is an identity that has a set of permissions. It is similar to a user, but isn't tied to a specific individual and does not have long-term credentials. Instead, when you assume a role, it provides you with temporary security credentials to access resources.
+- **Identity-based policies**: These are JSON documents that define permissions, i.e., specifying which actions can be performed on which AWS resources. Policies are attached to roles to grant specific permissions.
 
 <br>
 
@@ -66,23 +64,59 @@ Now follow these steps to manually deploy the backend of the address book app:
 
 If you haven’t already, sign up for an AWS account at https://aws.amazon.com/. Once you have your AWS account ready, navigate to the AWS Management Console.
 
-#### Step 2. Create an Elastic Beanstalk Application
+#### Step 2. Create an Elastic Beanstalk Application and Environment
 
-**2.1** In the AWS Management Console, search for and navigate to the **Elastic Beanstalk** service. In the navigation bar, choose `Asia Pacific (Singapore)` `ap-southeast-1` as the region.
+**2.1** In the AWS Management Console, search for and navigate to the **Elastic Beanstalk** service. In the navigation bar, choose `Asia Pacific (Singapore)` `ap-southeast-1` as the region. Alternatively, you can use this [direct link](https://ap-southeast-1.console.aws.amazon.com/elasticbeanstalk/home?region=ap-southeast-1#/welcome).
 
-**2.2** Choose "Create application".
+**2.2** Choose **Create application**.
 
 ![](./images/1.png)
 
-**2.3** Enter a name for your application (e.g., `AddressBookApp`) and select the platform as "Node.js". Keep the default settings for all other places. (Feel free to explore other settings for your own interest:wink:)
+**2.3** Under **Application name**, enter a name for the application (e.g., `AddressBookApp`). The **Environment name** below will be auto-populated.
+
+**2.4** Under **Platform**, select **Node.js** as the platform, since our application is built using Node.js.
+
+**2.5** Keep the default settings for all other places, then choose **Next**. (Feel free to explore other settings for your own interest:wink:)
 
 ![](./images/2.png)
 
 ![](./images/3.png)
 
-Then choose “Next” > “Skip to review” > “Submit”. Elastic Beanstalk is now creating a new *application* along with a new web server *environment* named `AddressBookApp-env` to execute its sample application.
+---
 
-**2.4** Please wait until the health status of the environment changes to "Ok". Once it’s ready, you can access the sample application at the auto-generated domain.
+#### Intermission: Configuring Service Access
+
+Now, we are at **Step 2 - Configure service access** in the console. This step requires us to set up some necessary permissions for the application to work properly within AWS. Here’s why it matters:
+
+As an orchestration service, *Elastic Beanstalk* needs to interact with various other AWS services. For example, it manages the creation and operation of EC2 instances (the servers running the app), sets up load balancers, and so on. To do these securely, we need to explicitly grant Elastic Beanstalk the necessary permissions through an *IAM role*, which is called the "**service role**" - essentially, a set of permissions.
+
+On the other hand, the *EC2 instance* also require permissions to perform certain tasks, such as retrieving our application's code (which we will upload later) from S3. We configure these permissions through an "**EC2 instance profile**", which is a wrapper around an IAM role - essentially, another set of permissions.
+
+If you expand the **EC2 instance profile** dropdown, it may be empty at the moment. In the past, Elastic Beanstalk could automatically create both the service role and instance profile when an AWS account first created an environment. However, due to recent changes in AWS security guidelines, we now need to manually create an instance profile first, then instruct Elastic Beanstalk to use it. If you already see the default `aws-elasticbeanstalk-ec2-role` in the list, you can simply choose it and proceed to the next step.
+
+To create a new instance profile/IAM role, you can follow [these simple steps in the AWS documentation](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/iam-instanceprofile.html#iam-instanceprofile-create).
+
+- Remember, an IAM role defines a set of permissions via policies. In step 6 of the process, you may assign all of the 3 default policies recommended by Elastic Beanstalk. You can find these by clicking **View permission details** under the EC2 instance profile dropdown. Simply search for the policy names and select them.
+
+  ![](./images/15.png)
+
+- For step 8, you can either use a custom name or stick with the default `aws-elasticbeanstalk-ec2-role`.
+
+![](./images/16.png)
+
+Once you've created the IAM role, return to **Step 2 - Configure service access**. Refresh the list under **EC2 instance profile**, and you should see the instance profile you just created.
+
+---
+
+**2.6** Under **Service role**, choose **Create and use new service role** (or choose an existing one if available in the dropdown).
+
+**2.7** Under **EC2 instance profile**, choose the instance profile you just created (or your existing one if you already had it).
+
+![](./images/17.png)
+
+**2.8** We will keep all other settings at their default values. Choose **Skip to review**, and then **Submit**. Elastic Beanstalk will now create a new *application* along with a new web server *environment* named `AddressBookApp-env` to run its sample application.
+
+**2.9** Wait for the environment's health status to change to "Ok". This may take a few minutes. Once it’s ready, you can access the sample application at the auto-generated domain.
 
 ![](./images/4.png)
 
@@ -90,17 +124,20 @@ Then choose “Next” > “Skip to review” > “Submit”. Elastic Beanstalk 
 
 #### Step 3. Prepare Application for Deployment
 
-In your local development environment, create a zip file named `address-book-app.zip` containing all the application files. You can omit the `node_modules` folder, as Elastic Beanstalk will install the dependencies in production mode as specified in `package.json`.
+In your local development environment, create a zip file named `address-book-app.zip` containing all the application files.
+
+- You can omit the `node_modules` folder, as Elastic Beanstalk will install the dependencies in production mode as specified in `package.json`.
+- For now, include the `.env` file in the zip, as it contains the cloud database connection string required for the application.
 
 #### Step 4. Deploy Application
 
 **4.1** Return to the AWS Elastic Beanstalk dashboard and navigate to the environment you created earlier.
 
-**4.2** Choose “Upload and deploy”.
+**4.2** Choose **Upload and deploy**.
 
-**4.3** Upload the zip file you just created. Then in the "Version label" field, enter a version name for this deployment (e.g., `1.0.0`).
+**4.3** Upload the zip file you just created. Then in the **Version label** field, enter a version name for this deployment (e.g., `1.0.0`).
 
-**4.4** Choose "Deploy" to start the deployment process.
+**4.4** Choose **Deploy** to start the deployment process.
 
 ![](./images/6.png)
 
@@ -118,25 +155,25 @@ For GitHub to interact with AWS services securely, we need to provide the necess
 
 **1.1** In the AWS Management Console, search for and navigate to the **IAM** service.
 
-**1.2** In the IAM console, select "Users" in the left navigation pane and then select "Create user".
+**1.2** In the IAM console, select **Users** in the left navigation pane and then select **Create user**.
 
 ![](./images/8.png)
 
-**1.3** Enter a unique username (e.g., `AddressBookDeployUser`) and select “Next”.
+**1.3** Enter a unique username (e.g., `AddressBookDeployUser`) and select **Next**.
 
 ![](./images/9.png)
 
-**1.4** In the "Set permissions" section, select "Attach policies directly", then search for and select "AdministratorAccess-AWSElasticBeanstalk" policy. This policy grants the permissions to access the Elastic Beanstalk service. Then select “Next” > “Create user”.
+**1.4** In the **Set permissions** section, select **Attach policies directly**, then search for and select "AdministratorAccess-AWSElasticBeanstalk" policy. This policy grants the permissions to access the Elastic Beanstalk service. Then choose **Next**, and finally **Create user**.
 
 ![](./images/10.png)
 
-**1.5** After the user is created, navigate to the "Security credentials" tab for the user. Under "Access keys", choose "Create access key" to generate a new access key for the user. You can select “Other” in the “Access key best practices & alternatives” section.
+**1.5** After the user is created, navigate to the **Security credentials** tab for the user. Under **Access keys**, choose **Create access key** to generate a new access key for the user. You can select **Other** in the **Access key best practices & alternatives** section.
 
 ![](./images/11.png)
 
 ![](./images/12.png)
 
-**1.6** Go to your GitHub repository, select "Settings" > "Secrets and variables" > “Actions”, and add the *Access Key ID* as `AWS_ACCESS_KEY_ID` and the *Secret Access Key* as `AWS_SECRET_ACCESS_KEY`.
+**1.6** In your GitHub repository, navigate to **Settings** >> **Secrets and variables** >> **Actions**, and add the *Access key* as `AWS_ACCESS_KEY_ID` and the *Secret access key* as `AWS_SECRET_ACCESS_KEY`.
 
 ![](./images/13.png)
 
@@ -144,13 +181,13 @@ For GitHub to interact with AWS services securely, we need to provide the necess
 
 #### Step 2: Create an Automated Deployment Workflow
 
-1. Create a `.github` directory in the root of your project
+**2.1** Create a `.github` directory in the root of your project
 
-2. Inside the `.github` directory, create another directory named `workflows`
+**2.2** Inside the `.github` directory, create another directory named `workflows`
 
-3. Inside the `workflows` directory, create a new file named `cd.yml`
+**2.3** Inside the `workflows` directory, create a new file named `cd.yml`
 
-4. Add the following code inside `cd.yml`:
+**2.4** Add the following code inside `cd.yml`:
 
 ```yaml
 name: CD Pipeline
@@ -166,22 +203,22 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18.x'
           cache: 'npm'
 
       - name: Generate deployment package
-        run: zip -r address-book-app.zip config controllers models routes index.js package.json .env
+        run: zip -r address-book-app.zip config controllers models routes index.js package.json
 
       - name: Get Node.js version
         run: echo "VERSION=$(node -p 'require("./package.json").version')" >> "$GITHUB_ENV"
 
       - name: Deploy to EB
-        uses: einaregilsson/beanstalk-deploy@v21
+        uses: einaregilsson/beanstalk-deploy@v22
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -218,9 +255,36 @@ The **`with`** section provides input parameters for the `beanstalk-deploy` acti
 
 - The "Get Node.js version" step fetches the application version from `package.json` and saves it as the GitHub environment variable `VERSION`. The **`version_label`** is then set to the value of `VERSION`, eliminating the need for manual version updates in the workflow file.
 
+
+#### Step 3: Configure Environment Variables in AWS
+
+The final step is to configure the database connection string in Elastic Beanstalk, as it's best practice not to commit sensitive information, like database credentials, to GitHub.
+
+**3.1** In the AWS Management Console, navigate to the Elastic Beanstalk service and select your environment (`AddressBookApp-env`) in the left navigation pane. Ensure the correct region is selected to view your applications and environments.
+
+**3.2** In the navigation pane, choose **Configuration**. This will display all the configurations for the environment.
+
+**3.3** Scroll to the **Updates, monitoring, and logging** category and choose **Edit**.
+
+![](./images/18.png)
+
+**3.4** Scroll to the bottom and select **Add environment property**.
+
+**3.5** Add your MongoDB Atlas connection string:
+
+- For **Name**, enter `MONGO_URI`
+- For **Value**, paste your MongoDB Atlas connection string (the same one from your `.env` file)
+
+![](./images/19.png)
+
+**3.6** Choose "Apply" to save the changes. The environment update may take a while.
+
 ### 📖 **Observe CD with GitHub Actions**
 
-Make some minor changes to your address book app, then commit and push the changes to the `master` branch. Check whether your changes have been automatically deployed to AWS Elastic Beanstalk. Don’t forget to update the version number in `package.json` (e.g., `1.0.1`).
+1. Make some minor changes to your address book app.
+2. Update the version number in `package.json` (e.g., change it to `1.0.1`).
+3. Commit and push the changes to the `master` branch of your cloned GitHub repository.
+4. Monitor the GitHub Actions workflow and your AWS Elastic Beanstalk environment to verify that the changes are automatically deployed.
 
 <br>
 
@@ -232,6 +296,8 @@ The following resources were used in the creation of this guide:
 GitHub Docs - Building and testing Node.js: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
 AWS Documentation: https://docs.aws.amazon.com/
+
+Managing Elastic Beanstalk instance profiles: https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/iam-instanceprofile.html
 
 AWS Elastic Beanstalk Tutorial: https://youtu.be/jnMUp2c9AzA
 
@@ -252,3 +318,11 @@ Deploying an Express application to Elastic Beanstalk using Elastic Beanstalk Co
 Deploying to AWS Elastic Beanstalk with GitHub Actions: https://leonardqmarcq.com/posts/github-actions-cicd-elastic-beanstalk
 
 Deploying a Docker application (React) to AWS Elastic Beanstalk: https://akashsingh.blog/complete-guide-on-deploying-a-docker-application-react-to-aws-elastic-beanstalk-using-docker-hub-and-github-actions
+
+Getting started with Elastic Beanstalk: https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/GettingStarted.html
+
+Elastic Beanstalk Service roles, instance profiles, and user policies: https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/concepts-roles.html
+
+Policies and permissions in AWS Identity and Access Management: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html
+
+IAM roles: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html
