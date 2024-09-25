@@ -30,6 +30,8 @@ Before starting, ensure that you have the following:
 
 3. Set up a cloud MongoDB database on MongoDB Atlas and obtain the connection string. Create a copy of the `.env.sample` file and name it `.env`. Update the `CLOUD_URI` environment variable inside `.env` to point to the cloud database.
 
+   > ℹ️ If your password contains special characters which leads to a parsing error, you need to encode the URI. You may do so at [here](https://www.urlencoder.org/). For more details, refer to this [guide](https://www.mongodb.com/docs/atlas/troubleshoot-connection/#special-characters-in-connection-string-password).
+
 4. Start the application locally using `npm start`.
 
    Go to [`localhost:8080`](http://localhost:8080/) and you should be able to see “Welcome to Address Book with CD!”.
