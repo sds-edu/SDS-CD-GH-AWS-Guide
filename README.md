@@ -129,7 +129,11 @@ Once you've created the IAM role, return to **Step 2 - Configure service access*
 In your local development environment, create a zip file named `address-book-app.zip` containing all the application files.
 
 - You can omit the `node_modules` folder, as Elastic Beanstalk will install the dependencies in production mode as specified in `package.json`.
-- For now, include the `.env` file in the zip, as it contains the cloud database connection string required for the application.
+- For now, include the .env file in the zip, as it contains the cloud database connection string required for the application.
+
+Warning: In real-world production scenarios, never include your .env file in a zipped deployment. It often contains sensitive secrets and credentials. Instead, configure these as environment variables in the deployment environment (e.g., via AWS Elastic Beanstalk Configuration → Software settings).
+
+While pushing code to GitHub, you can use a `.gitignore` file to exclude the `node_modules` folder and the `.env` file. This ensures that sensitive information is not accidentally shared.
 
 #### Step 4. Deploy Application
 
@@ -291,6 +295,81 @@ The final step is to configure the database connection string in Elastic Beansta
 <br>
 
 🎉Congratulations on successfully following this CD with GitHub Actions and AWS guide! **Don’t forget to terminate the AWS Elastic Beanstalk environment to avoid unnecessary charges.**😊
+
+
+## Part III: Monitoring and Observability with Amazon CloudWatch
+
+Once your application is deployed, it’s important to monitor its performance and availability. **Amazon CloudWatch** is AWS’s observability platform that helps you collect logs, track metrics, create alarms, and get actionable insights from your applications running on AWS.
+
+CloudWatch automatically receives metrics from most AWS services (like EC2, Lambda, Beanstalk), and you can also send your own custom application metrics or logs.
+
+![](./images/20.jpg)
+
+### Logs and Insights
+
+CloudWatch Logs stores your application’s log data. You can use **Log Insights**, a query language similar to SQL, to search and analyze logs quickly.
+
+For example, you can find slow API requests or see how many times a Lambda function ran with specific memory usage.
+
+```sql
+fields @timestamp, @message
+| filter @message like /Error/
+| sort @timestamp desc
+| limit 20
+```
+
+You can group logs by services like Lambda, ECS, or EC2, and visualize them in one place.
+
+
+### Dashboards and Metrics
+
+You can create **custom dashboards** that include real-time graphs of application metrics such as:
+
+* Number of invocations
+* Errors and latency
+* CPU and memory usage
+* Request counts or response status codes (e.g., 4xx, 5xx)
+
+These can be useful to spot trends, detect failures, and correlate application issues with system behavior.
+
+![](./images/21.webp)
+
+
+### Alarms and Alerts
+
+CloudWatch Alarms let you define thresholds for metrics and trigger actions (like sending email or triggering a Lambda) when those thresholds are breached.
+
+For example:
+
+* Alert if your application latency exceeds 1 second.
+* Alert if memory usage crosses 80%.
+* Trigger autoscaling when CPU usage is consistently high.
+
+You can also create **composite alarms** that trigger only when multiple conditions are met (e.g., high latency *and* error rate).
+
+
+### Synthetic Monitoring
+
+**CloudWatch Synthetics** allows you to simulate user interactions with your app using canaries—automated scripts that run on a schedule.
+
+Use this to monitor:
+
+* API availability and response time
+* Health checks of routes or endpoints
+* Web UI flows (e.g., login → dashboard → logout)
+
+
+### Best Practices
+
+* **Set retention policies** for logs to avoid unexpected charges.
+* **Use environment variables** to differentiate logs by stage (dev, staging, prod).
+* **Avoid excessive logging**—filter logs client-side or at source if possible.
+* **Visualize metrics** using dashboards regularly to improve your observability posture.
+
+
+Monitoring is just as important as deploying. By configuring CloudWatch properly, you gain visibility and peace of mind knowing that your application is behaving as expected—or get notified when it’s not.
+
+---
 
 ## References
 The following resources were used in the creation of this guide:
