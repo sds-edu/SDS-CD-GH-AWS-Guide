@@ -19,12 +19,12 @@ Before starting, ensure that you have the following:
 2. A GitHub account
 3. Familiarity with the concepts of CD
 4. Node.js and npm installed on your local machine
-5. An AWS account (if you don't have one, sign up at https://aws.amazon.com/)
+5. An AWS account (if you don't have one, sign up at <https://aws.amazon.com/>)
 6. A MongoDB Atlas account (visit [this guide](https://www.mongodb.com/docs/atlas/getting-started/) to get started with MongoDB Atlas)
 
 ## Setup
 
-1. Fork and then clone the repository https://github.com/nus-CS3219/CS3219-CD-GH-AWS-Code.git to your device.
+1. Fork and then clone [this repository](https://github.com/nus-CS3219/CS3219-CD-GH-AWS-Code.git) to your device.
 
    > ℹ️ About the project: The repository contains the backend code of an address book application, one that is similar to what you have seen in CS2103/T or CS2113/T but developed in JavaScript. The backend is equipped with basic functionalities, including the ability to add, retrieve, edit, and delete information, by connecting to MongoDB Atlas – a cloud database.
 
@@ -139,7 +139,6 @@ If you already see the default `aws-elasticbeanstalk-ec2-role` in the list, you 
 8. You can either use a custom name or stick with the default `"aws-elasticbeanstalk-service-role"`. Click "Create role".
 
     ![role name](./images/15.6.png)
-
 
 Once you've created the IAM roles, return to **Step 2 - Configure service access**. Refresh the list under **EC2 instance profile**, and you should see the instance profile you just created.
 
@@ -330,7 +329,7 @@ The final step is to configure the database connection string in Elastic Beansta
 
 **3.3** Scroll to the **Updates, monitoring, and logging** category and choose **Edit**.
 
-![](./images/18.png)
+![Monitoring](./images/18.png)
 
 **3.4** Scroll to the bottom and select **Add environment property**.
 
@@ -383,10 +382,10 @@ You can group logs by services like Lambda, ECS, or EC2, and visualize them in o
 
 You can create **custom dashboards** that include real-time graphs of application metrics such as:
 
-* Number of invocations
-* Errors and latency
-* CPU and memory usage
-* Request counts or response status codes (e.g., 4xx, 5xx)
+- Number of invocations
+- Errors and latency
+- CPU and memory usage
+- Request counts or response status codes (e.g., 4xx, 5xx)
 
 These can be useful to spot trends, detect failures, and correlate application issues with system behavior.
 
@@ -429,36 +428,35 @@ Monitoring is just as important as deploying. By configuring CloudWatch properly
 
 The following resources were used in the creation of this guide:
 
-GitHub Docs - Building and testing Node.js: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+- [GitHub Docs - Building and testing Node.js](https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs)
 
-AWS Documentation: https://docs.aws.amazon.com/
+- [AWS Documentation](https://docs.aws.amazon.com/)
 
-Managing Elastic Beanstalk instance profiles: https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/iam-instanceprofile.html
+- [Managing Elastic Beanstalk instance profiles](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/iam-instanceprofile.html)
 
-AWS Elastic Beanstalk Tutorial: https://youtu.be/jnMUp2c9AzA
+- [AWS Elastic Beanstalk Tutorial](https://youtu.be/jnMUp2c9AzA)
 
-MongoDB in GitHub Actions: https://github.com/marketplace/actions/mongodb-in-github-actions
+- [MongoDB in GitHub Actions](https://github.com/marketplace/actions/mongodb-in-github-actions)
 
-Beanstalk Deploy: https://github.com/marketplace/actions/beanstalk-deploy
-
+- [Beanstalk Deploy](https://github.com/marketplace/actions/beanstalk-deploy)
 Outline generated with [ChatGPT](https://openai.com/blog/chatgpt)
 
 ## Other Resources
 
-Using a matrix for your jobs: https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs
+- [Using a matrix for your jobs](https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs)
 
-Using Elastic Beanstalk with Amazon S3: https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.S3.html
+- [Using Elastic Beanstalk with Amazon S3](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.S3.html)
 
-Deploying an Express application to Elastic Beanstalk using Elastic Beanstalk Command Line Interface (EB CLI): https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create_deploy_nodejs_express.html
+- [Deploying an Express application to Elastic Beanstalk using Elastic Beanstalk Command Line Interface (EB CLI)](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create_deploy_nodejs_express.html)
 
-Deploying to AWS Elastic Beanstalk with GitHub Actions: https://leonardqmarcq.com/posts/github-actions-cicd-elastic-beanstalk
+- [Deploying to AWS Elastic Beanstalk with GitHub Actions](https://leonardqmarcq.com/posts/github-actions-cicd-elastic-beanstalk)
 
-Deploying a Docker application (React) to AWS Elastic Beanstalk: https://akashsingh.blog/complete-guide-on-deploying-a-docker-application-react-to-aws-elastic-beanstalk-using-docker-hub-and-github-actions
+- [Deploying a Docker application (React) to AWS Elastic Beanstalk](https://akashsingh.blog/complete-guide-on-deploying-a-docker-application-react-to-aws-elastic-beanstalk-using-docker-hub-and-github-actions)
 
-Getting started with Elastic Beanstalk: https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/GettingStarted.html
+- [Getting started with Elastic Beanstalk](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/GettingStarted.html)
 
-Elastic Beanstalk Service roles, instance profiles, and user policies: https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/concepts-roles.html
+- [Elastic Beanstalk Service roles, instance profiles, and user policies](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/concepts-roles.html)
 
-Policies and permissions in AWS Identity and Access Management: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html
+- [Policies and permissions in AWS Identity and Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html)
 
-IAM roles: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html
+- [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html)
