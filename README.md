@@ -1,6 +1,6 @@
-# CS3219 SE Toolbox - CD with GitHub Actions and AWS
+# SDS Toolbox - CD with GitHub Actions and AWS
 
-The CS3219 SE Toolbox is a collection of guides and resources to help you get started with the various tools and technologies used CS3219 - Software Engineering Principles and Patterns.
+The SDS Toolbox is a collection of guides and resources to help you get started with the various tools and technologies used in software engineering.
 
 This guide provides a step-by-step walkthrough on how to set up Continuous Deployment (CD) with GitHub Actions and Amazon Web Services (AWS).
 
