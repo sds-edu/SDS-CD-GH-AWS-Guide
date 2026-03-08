@@ -24,7 +24,7 @@ Before starting, ensure that you have the following:
 
 ## Setup
 
-1. Fork and then clone the [Toolbox-CD-GH-AWS-Code](https://github.com/sds-edu/Toolbox-CD-GH-AWS-Code) repository to your device.
+1. Fork and then clone the [SDS-Kit-CD-GH-AWS-Code](https://github.com/sds-edu/SDS-Kit-CD-GH-AWS-Code) repository to your device.
 
    > ℹ️ About the project: The repository contains the backend code of an address book application, one that is similar to what you have seen in CS2103/T or CS2113/T but developed in JavaScript. The backend is equipped with basic functionalities, including the ability to add, retrieve, edit, and delete information, by connecting to MongoDB Atlas – a cloud database.
 
