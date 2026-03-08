@@ -1,6 +1,6 @@
 # SDS Toolbox - CD with GitHub Actions and AWS
 
-The SDS Toolbox is a collection of guides and resources to help you get started with the various tools and technologies used in software engineering.
+The Software Design School (SDS) Toolbox is a collection of guides and resources to help you get started with the various tools and technologies used in software engineering.
 
 This guide provides a step-by-step walkthrough on how to set up Continuous Deployment (CD) with GitHub Actions and Amazon Web Services (AWS).
 
@@ -24,7 +24,7 @@ Before starting, ensure that you have the following:
 
 ## Setup
 
-1. Fork and then clone [this repository](https://github.com/nus-CS3219/CS3219-CD-GH-AWS-Code.git) to your device.
+1. Fork and then clone [this repository](https://github.com/sds-edu/SE-Toolbox-CD-GH-AWS-Code) to your device.
 
    > ℹ️ About the project: The repository contains the backend code of an address book application, one that is similar to what you have seen in CS2103/T or CS2113/T but developed in JavaScript. The backend is equipped with basic functionalities, including the ability to add, retrieve, edit, and delete information, by connecting to MongoDB Atlas – a cloud database.
 
