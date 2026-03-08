@@ -20,7 +20,7 @@ Before starting, ensure that you have the following:
 3. Familiarity with the concepts of CD
 4. Node.js and npm installed on your local machine
 5. An AWS account (if you don't have one, sign up at <https://aws.amazon.com/>)
-6. A MongoDB Atlas account (visit [this guide](https://www.mongodb.com/docs/atlas/getting-started/) to get started with MongoDB Atlas)
+6. A MongoDB Atlas account (visit the [Get Started with Atlas](https://www.mongodb.com/docs/atlas/getting-started/) guide to get started with MongoDB Atlas)
 
 ## Setup
 
