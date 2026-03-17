@@ -439,7 +439,6 @@ The following resources were used in the creation of this guide:
 - [MongoDB in GitHub Actions](https://github.com/marketplace/actions/mongodb-in-github-actions)
 
 - [Beanstalk Deploy](https://github.com/marketplace/actions/beanstalk-deploy)
-Outline generated with [ChatGPT](https://openai.com/blog/chatgpt)
 
 ## Other Resources
 
@@ -460,3 +459,7 @@ Outline generated with [ChatGPT](https://openai.com/blog/chatgpt)
 - [Policies and permissions in AWS Identity and Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html)
 
 - [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html)
+
+## AI Declaration
+
+Some parts of this guide were structured, formatted, and refined with the assistance of `ChatGPT`. The model was used to draft technical explanations and generate code snippets. All code snippets used in the guide and command sequences were reviewed, implemented, and tested by the teaching team to ensure accuracy and functionality.
