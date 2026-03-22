@@ -26,7 +26,7 @@ Before starting, ensure that you have the following:
 
 1. Fork and then clone the [SDS-Kit-CD-GH-AWS-Code](https://github.com/sds-edu/SDS-Kit-CD-GH-AWS-Code) repository to your device.
 
-   > ℹ️ About the project: The repository contains the backend code of an address book application, one that is similar to what you have seen in CS2103/T or CS2113/T but developed in JavaScript. The backend is equipped with basic functionalities, including the ability to add, retrieve, edit, and delete information, by connecting to MongoDB Atlas – a cloud database.
+   > ℹ️ About the project: The repository contains the backend code of an address book application developed in JavaScript. The backend is equipped with basic functionalities, including the ability to add, retrieve, edit, and delete information, by connecting to MongoDB Atlas – a cloud database.
 
 2. Install all dependencies in the project directory:
 
@@ -342,7 +342,7 @@ The final step is to configure the database connection string in Elastic Beansta
 
 **3.6** Choose "Apply" to save the changes. The environment update may take a while.
 
-### 📖 **Observe CD with GitHub Actions**
+### **Observe CD with GitHub Actions**
 
 1. Make some minor changes to your address book app.
 2. Update the version number in `package.json` (e.g., change it to `1.0.1`).
