@@ -92,13 +92,13 @@ If you haven’t already, sign up for an AWS account at <https://aws.amazon.com>
 
 ![nodejs platform](./images/3.png)
 
-**2.5** Keep the default settings for all other places, then choose **Next**. (Feel free to explore other settings for your own interest 😄)
+**2.5** Keep the default settings for all other places. Don't create the environment yet. We have to configure some service access roles first as explained below (Feel free to explore other settings for your own interest 😄).
 
 ---
 
 #### Intermission: Configuring Service Access
 
-Now, we are at **Step 2 - Configure service access** in the console. This step requires us to set up some necessary permissions for the application to work properly within AWS. Here’s why it matters:
+Now, we have to configure service access in the console. This step requires us to set up some necessary permissions for the application to work properly within AWS. Here’s why it matters:
 
 As an orchestration service, *Elastic Beanstalk* needs to interact with various other AWS services. For example, it manages the creation and operation of EC2 instances (the servers running the app), sets up load balancers, and so on. To do these securely, we need to explicitly grant Elastic Beanstalk the necessary permissions through an *IAM role*, which is called the "**service role**" - essentially, a set of permissions.
 
@@ -140,19 +140,23 @@ If you already see the default `aws-elasticbeanstalk-ec2-role` in the list, you 
 
     ![role name](./images/15.6.png)
 
-Once you've created the IAM roles, return to **Step 2 - Configure service access**. Refresh the list under **EC2 instance profile**, and you should see the instance profile you just created.
+Once you've created the IAM roles, return to environment creation page.
 
 ---
 
-**2.6** Under **Service role**, choose the service role you just created (or your existing one if you already had it).
+**2.6** Go to Environment properties and expand the **Service access - *optional*** section.
 
-**2.7** Under **EC2 instance profile**, choose the instance profile you just created (or your existing one if you already had it).
+![service access](./images/17.1.png)
 
-![service access](./images/17.png)
+**2.7** Under **Service role**, choose the service role you just created (or your existing one if you already had it).
 
-**2.8** We will keep all other settings at their default values. Choose **Skip to review**, and then **Create**. Elastic Beanstalk will now create a new *application* along with a new web server *environment* named `AddressBookApp-env` to run its sample application.
+**2.8** Under **EC2 instance profile**, choose the instance profile you just created (or your existing one if you already had it).
 
-**2.9** Wait for the environment's health status to change to "Ok". This may take a few minutes. Once it’s ready, you can access the sample application at the auto-generated domain.
+![service access](./images/17.2.png)
+
+**2.9** We will keep all other settings at their default values. Choose **Skip to review**, and then **Create**. Elastic Beanstalk will now create a new *application* along with a new web server *environment* named `AddressBookApp-env` to run its sample application.
+
+**2.10** Wait for the environment's health status to change to "Ok". This may take a few minutes. Once it’s ready, you can access the sample application at the auto-generated domain.
 
 ![Beanstalk dashboard](./images/4.png)
 
@@ -236,6 +240,10 @@ For GitHub to interact with AWS services securely, we need to provide the necess
 ![Security credentials IN bEANSTALK](./images/11.png)
 
 ![Create access key](./images/12.png)
+
+![Type of key](./images/12.1.png)
+
+
 
 **1.6** In your GitHub repository, navigate to **Settings** >> **Secrets and variables** >> **Actions**. Under **Repository secrets** and add the *Access key* as `AWS_ACCESS_KEY_ID` and the *Secret access key* as `AWS_SECRET_ACCESS_KEY`.
 
@@ -327,7 +335,7 @@ The final step is to configure the database connection string in Elastic Beansta
 
 **3.2** In the navigation pane, choose **Configuration**. This will display all the configurations for the environment.
 
-**3.3** Scroll to the **Updates, monitoring, and logging** category and choose **Edit**.
+**3.3** Scroll to the **Monitoring and updates** category and choose **Edit**.
 
 ![Monitoring](./images/18.png)
 
@@ -335,6 +343,7 @@ The final step is to configure the database connection string in Elastic Beansta
 
 **3.5** Add your MongoDB Atlas connection string:
 
+- For **Source**, enter Plain text
 - For **Name**, enter `MONGO_URI`
 - For **Value**, paste your MongoDB Atlas connection string (the same one from your `.env` file)
 
